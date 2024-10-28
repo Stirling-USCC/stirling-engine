@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "ms-vscode.cmake-tools",
+        "ms-vscode.cpptools-extension-pack",
+        "twxs.cmake",
+        "clang-format.vscode-clang-format",
+        "slevesque.shader",
+        "flecs-hub.flecs-lang"
+    ]
+}
