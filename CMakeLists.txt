@@ -9,6 +9,7 @@ VERSION 0.1.0
 DESCRIPTION "The USCC's 3D game engine"
 LANGUAGES CXX)
 
+## Global Compiler Options:
 # Set the C++ standard (we use C++20)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -41,6 +42,7 @@ FIND_PACKAGE_ARGS NAMES SDL3 COMPONENTS SDL3-static)
 
 FetchContent_MakeAvailable(fmt SDL3)
 
+## Main Executable:
 # Compile the executable program from the listed source files
 # WIN32 creates a GUI (not command line) program on Windows, and is ignored on other operating systems
 add_executable(stirling-engine WIN32
@@ -54,3 +56,16 @@ target_link_libraries(stirling-engine PRIVATE fmt::fmt SDL3::SDL3-static)
 
 # Install the engine (only performed if you explicitly tell CMake to install)
 install(TARGETS stirling-engine)
+
+## Documentation:
+find_package(Doxygen)
+if(DOXYGEN_FOUND)
+SET(DOXYGEN_BUILTIN_STL_SUPPORT YES)
+set(DOXYGEN_EXTRACT_PRIVATE YES)
+set(DOXYGEN_EXTRACT_STATIC YES)
+set(DOXYGEN_FORCE_LOCAL_INCLUDES YES)
+# Build the documentation from header and sources files
+  doxygen_add_docs(docs
+  ./include
+  ./src)
+endif()
