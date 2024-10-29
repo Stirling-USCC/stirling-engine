@@ -21,7 +21,14 @@ endif()
 ## Dependencies:
 include(FetchContent)
 
-# SDL3, cross-platform library for creating windows, getting kb/mouse input, etc
+# fmt: much nicer string formatting for C++
+FetchContent_Declare(fmt
+GIT_REPOSITORY https://github.com/fmtlib/fmt
+GIT_TAG 11.0.2
+# Tells CMake to look for an existing installation of fmt on your system, and only download it if you don't have one
+FIND_PACKAGE_ARGS NAMES fmt)
+
+# SDL3: cross-platform library for creating windows, getting kb/mouse input, etc
 # We want to build a static librrary, so that SDL3 is included directly in our executable
 set(SDL_SHARED OFF)
 set(SDL_STATIC ON)
@@ -32,7 +39,7 @@ GIT_TAG main
 # Tells CMake to look for an existing installation of SDL3 on your system, and only download it if you don't have one
 FIND_PACKAGE_ARGS NAMES SDL3 COMPONENTS SDL3-static)
 
-FetchContent_MakeAvailable(SDL3)
+FetchContent_MakeAvailable(fmt SDL3)
 
 # Compile the executable program from the listed source files
 # WIN32 creates a GUI (not command line) program on Windows, and is ignored on other operating systems
@@ -43,7 +50,7 @@ src/main.cpp)
 # Tell the compiler where to find our headers
 target_include_directories(stirling-engine PRIVATE ./include)
 # Tell the compiler what libraries we use
-target_link_libraries(stirling-engine PRIVATE SDL3::SDL3-static)
+target_link_libraries(stirling-engine PRIVATE fmt::fmt SDL3::SDL3-static)
 
 # Install the engine (only performed if you explicitly tell CMake to install)
 install(TARGETS stirling-engine)

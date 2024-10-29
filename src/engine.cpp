@@ -2,6 +2,7 @@
 
 #include <stdexcept>
 
+#include <fmt/core.h>
 #include <SDL3/SDL_init.h>
 
 Engine::Engine(int argc, char *argv[])
@@ -9,14 +10,14 @@ Engine::Engine(int argc, char *argv[])
     // Initialize SDL. We specifically need the video subsystem, which facilitates creating windows.
     if (!SDL_Init(SDL_INIT_VIDEO))
     {
-        throw std::runtime_error(SDL_GetError());
+        throw std::runtime_error(fmt::format("Could not initialize SDL: {}", SDL_GetError()));
     }
 
     // Create the main window
     window_ = SDL_CreateWindow("Stirling Engine", DEFAULT_WIDTH, DEFAULT_HEIGHT, 0);
     if (window_ == nullptr)
     {
-        throw std::runtime_error(SDL_GetError());
+        throw std::runtime_error(fmt::format("Could not create main window: {}", SDL_GetError()));
     }
 }
 
