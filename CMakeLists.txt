@@ -37,6 +37,7 @@ FetchContent_MakeAvailable(SDL3)
 # Compile the executable program from the listed source files
 # WIN32 creates a GUI (not command line) program on Windows, and is ignored on other operating systems
 add_executable(stirling-engine WIN32
+src/engine.cpp
 src/main.cpp)
 
 # Tell the compiler where to find our headers
