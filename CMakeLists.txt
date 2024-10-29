@@ -2,7 +2,7 @@
 # This is a build configuration that tells the CMake build system how to compile our project
 
 # Define the minimum supported version of CMake
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.14)
 
 project("Stirling Engine"
 VERSION 0.1.0
