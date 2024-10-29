@@ -1,10 +1,11 @@
 {
     "recommendations": [
-        "ms-vscode.cmake-tools",
-        "ms-vscode.cpptools-extension-pack",
-        "twxs.cmake",
-        "clang-format.vscode-clang-format",
-        "slevesque.shader",
-        "flecs-hub.flecs-lang"
+        "ms-vscode.cmake-tools", // Build system support
+        "twxs.cmake", // CMakeLists.txt language support
+        "ms-vscode.cpptools-extension-pack", // C++ integration
+        "clang-format.vscode-clang-format", // Auto formatting with clang-format
+        "slevesque.shader", // GLSL language support
+        "flecs-hub.flecs-lang", // Flecs language support
+        "phytolizer.header-guard-generator" // Easily generate header guards
     ]
 }
