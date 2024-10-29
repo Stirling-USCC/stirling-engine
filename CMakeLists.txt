@@ -67,5 +67,6 @@ set(DOXYGEN_FORCE_LOCAL_INCLUDES YES)
 # Build the documentation from header and sources files
   doxygen_add_docs(docs
   ./include
-  ./src)
+  ./src
+  README.md)
 endif()
