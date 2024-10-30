@@ -64,6 +64,7 @@ SET(DOXYGEN_BUILTIN_STL_SUPPORT YES)
 set(DOXYGEN_EXTRACT_PRIVATE YES)
 set(DOXYGEN_EXTRACT_STATIC YES)
 set(DOXYGEN_FORCE_LOCAL_INCLUDES YES)
+set(DOXYGEN_USE_MDFILE_AS_MAINPAGE README.md)
 # Build the documentation from header and sources files
   doxygen_add_docs(docs
   ./include

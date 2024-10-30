@@ -1,4 +1,4 @@
-# Stirling Engine {#mainpage}
+# Stirling Engine
 
 A 3D game engine built by the [University of Stirling Computer Club][uscc].
 
