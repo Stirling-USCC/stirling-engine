@@ -1,5 +1,7 @@
 {
     "editor.formatOnSave": true,
+    // We disable this because clangd is better, and the clangd extension will complain otherwise
+    "C_Cpp.intelliSenseEngine": "disabled",
     "C_Cpp.default.cppStandard": "c++20",
     "C_Cpp.doxygen.generatedStyle": "/**",
     "header-guard-generator.stopDirs": [
