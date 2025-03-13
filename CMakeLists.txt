@@ -20,27 +20,23 @@ if(NOT PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
 endif()
 
 ## Dependencies:
-include(FetchContent)
+# Include a handy helper script to automatically fetch and build the libraries we use
+include(cmake/CPM.cmake)
 
-# fmt: much nicer string formatting for C++
-FetchContent_Declare(fmt
-GIT_REPOSITORY https://github.com/fmtlib/fmt
-GIT_TAG 11.0.2
-# Tells CMake to look for an existing installation of fmt on your system, and only download it if you don't have one
-FIND_PACKAGE_ARGS NAMES fmt)
-
-# SDL3: cross-platform library for creating windows, getting kb/mouse input, etc
-# We want to build a static librrary, so that SDL3 is included directly in our executable
-set(SDL_SHARED OFF)
-set(SDL_STATIC ON)
-FetchContent_Declare(SDL3
-# TODO: Pin this to a specific git tag when SDL 3.2 is officially released
-GIT_REPOSITORY https://github.com/libsdl-org/sdl
-GIT_TAG main
-# Tells CMake to look for an existing installation of SDL3 on your system, and only download it if you don't have one
-FIND_PACKAGE_ARGS NAMES SDL3 COMPONENTS SDL3-static)
-
-FetchContent_MakeAvailable(fmt SDL3)
+# Add SDL3, a cross-platform library for windows, graphics and audio
+CPMFindPackage(NAME SDL3
+VERSION 3.2.8
+GIT_REPOSITORY "https://github.com/libsdl-org/sdl"
+# SDL's tags are named differently, so we have to specify this manually
+GIT_TAG release-3.2.8
+# We don't need the shared library, tests, or to install SDL, turn those off
+OPTIONS "SDL_STATIC ON" "SDL_SHARED OFF" "SDL_TESTS OFF" "SDL_DISABLE_INSTALL ON")
+# Add Flecs, a fantastic Entity Component System library
+CPMFindPackage(NAME flecs
+VERSION 4.0.4
+GIT_REPOSITORY "https://github.com/SanderMertens/flecs"
+# We don't need the shared library, don't bother building it
+Options "FLECS_SHARED OFF")
 
 ## Main Executable:
 # Compile the executable program from the listed source files
@@ -52,12 +48,13 @@ src/main.cpp)
 # Tell the compiler where to find our headers
 target_include_directories(stirling-engine PRIVATE ./include)
 # Tell the compiler what libraries we use
-target_link_libraries(stirling-engine PRIVATE fmt::fmt SDL3::SDL3-static)
+target_link_libraries(stirling-engine PRIVATE flecs_static SDL3::SDL3-static)
 
 # Install the engine (only performed if you explicitly tell CMake to install)
 install(TARGETS stirling-engine)
 
 ## Documentation:
+# Generate documentation from comments in the code, with Doxygen
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
 SET(DOXYGEN_BUILTIN_STL_SUPPORT YES)
