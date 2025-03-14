@@ -7,10 +7,9 @@
 
 #include "engine.hpp"
 
-int main(int argc, char *argv[])
-{
-    // Create and run an Engine
-    Engine engine(argc, argv);
-    engine.run();
-    return 0; // Success
+int main(int argc, char *argv[]) {
+  // Create and run an Engine
+  Engine engine(argc, argv);
+  engine.run();
+  return 0; // Success
 }
