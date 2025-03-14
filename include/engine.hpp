@@ -19,7 +19,8 @@ private:
   static const int DEFAULT_WIDTH = 800;  /**< Default window width */
   static const int DEFAULT_HEIGHT = 600; /**< Default window height */
 
-  SDL_Window *window_ = nullptr; /**< The main window */
+  SDL_Window *window_ = nullptr;       /**< The main window */
+  SDL_GLContext gl_context_ = nullptr; /**< The OpenGL context */
 
 public:
   /**

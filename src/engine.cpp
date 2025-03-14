@@ -1,4 +1,5 @@
 #include "engine.hpp"
+#include "SDL3/SDL_video.h"
 
 #include <format>
 #include <stdexcept>
@@ -14,15 +15,31 @@ Engine::Engine(int argc, char *argv[]) {
   }
 
   // Create the main window
-  window_ =
-      SDL_CreateWindow("Stirling Engine", DEFAULT_WIDTH, DEFAULT_HEIGHT, 0);
+  window_ = SDL_CreateWindow("Stirling Engine", DEFAULT_WIDTH, DEFAULT_HEIGHT,
+                             SDL_WINDOW_OPENGL);
   if (window_ == nullptr) {
     throw std::runtime_error(
         std::format("Could not create main window: {}", SDL_GetError()));
   }
+
+  // Set OpenGL 3.3 as the desired context version
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
+  // Create the OpenGL context
+  gl_context_ = SDL_GL_CreateContext(window_);
+  if (gl_context_ == nullptr) {
+    throw std::runtime_error(
+        std::format("Could not create OpenGL context: {}", SDL_GetError()));
+  }
 }
 
 Engine::~Engine() {
+  if (gl_context_) {
+    SDL_GL_DestroyContext(gl_context_);
+  }
+
   if (window_) {
     SDL_DestroyWindow(window_);
   }
@@ -31,6 +48,11 @@ Engine::~Engine() {
 }
 
 void Engine::run() {
+  if (!SDL_GL_MakeCurrent(window_, gl_context_)) {
+    throw std::runtime_error(std::format(
+        "Could not make OpenGL context current: {}", SDL_GetError()));
+  }
+
   while (true) {
     // Process all pending events
     // See the documentation of SDL_PollEvent() for more information
