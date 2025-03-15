@@ -11,5 +11,6 @@
     "license.author": "Stirling Engine contributors <committee@stirlingcomputer.club>",
     "[cpp]": {
         "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
-    }
+    },
+    "glMacroHints.glVersion": "gl4"
 }

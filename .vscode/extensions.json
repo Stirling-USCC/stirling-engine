@@ -5,6 +5,7 @@
         "slevesque.shader", // GLSL language support
         "flecs-hub.flecs-lang", // Flecs language support
         "phytolizer.header-guard-generator", // Easily generate header guards
-        "llvm-vs-code-extensions.vscode-clangd" // Even more C++ integration
+        "llvm-vs-code-extensions.vscode-clangd", // Even more C++ integration
+        "deepquantum.gl-macro-hints" // Documentation for OpenGL functions
     ]
 }
