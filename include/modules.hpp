@@ -1,8 +1,7 @@
 #ifndef MODULES_HPP_
 #define MODULES_HPP_
 
-#include <flecs.h>
-#include <flecs/addons/cpp/flecs.hpp>
+#include <flecs.hpp>
 
 #include "renderer/opengl/components.hpp"
 

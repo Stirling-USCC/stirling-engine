@@ -1,8 +1,7 @@
 #ifndef COMPONENTS_RENDERER_OPENGL_HPP_
 #define COMPONENTS_RENDERER_OPENGL_HPP_
 
-#include <flecs.h>
-#include <flecs/addons/cpp/flecs.hpp>
+#include <flecs.hpp>
 #include <glad/gl.h>
 
 /**

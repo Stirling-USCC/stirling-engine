@@ -8,8 +8,8 @@
 
 #include <SDL3/SDL_events.h>
 #include <SDL3/SDL_video.h>
-#include <flecs.h>
-#include <flecs/addons/cpp/flecs.hpp>
+#include <flecs.hpp>
+
 
 /**
  * @brief The main class used to create and run the game engine.

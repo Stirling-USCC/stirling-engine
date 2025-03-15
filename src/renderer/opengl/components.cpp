@@ -1,6 +1,7 @@
 #include "renderer/opengl/components.hpp"
 
 #include <SDL3/SDL_log.h>
+#include <flecs.hpp>
 #include <glad/gl.h>
 
 namespace renderer::opengl {
