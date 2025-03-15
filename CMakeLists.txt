@@ -46,7 +46,8 @@ add_subdirectory(glad)
 # WIN32 creates a GUI (not command line) program on Windows, and is ignored on other operating systems
 add_executable(stirling-engine WIN32
 src/engine.cpp
-src/main.cpp)
+src/main.cpp
+src/renderer/opengl/components.cpp)
 
 # Tell the compiler where to find our headers
 target_include_directories(stirling-engine PRIVATE ./include)
