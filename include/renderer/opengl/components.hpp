@@ -7,10 +7,12 @@
 /**
  * @brief contains components and systems for rendering using OpenGL.
  *
- * @see renderer::opengl::Module
+ * @see renderer::opengl::components
  */
+namespace renderer::opengl {
 
 /**
+ * @class components
  * @brief A Flecs module that contains components for rendering using OpenGL.
  */
 struct components {
@@ -19,16 +21,61 @@ struct components {
    */
   components(flecs::world &world);
 };
-namespace renderer::opengl {
 
 /**
- * @brief A Flecs module that contains components for rendering using OpenGL.
+ * @class Name
+ * @brief A class representing an OpenGL name/ID.
+ *
+ * This class encapsulates an OpenGL name/ID and provides mechanisms to manage
+ * its validity and movement. Copying of Name objects is disallowed to prevent
+ * accidental duplication or double-freeing of OpenGL resources.
+ *
+ * Classes that manage OpenGL resources should inherit from Name, to provide the
+ * common helper methods. They *must* also implement a destructor if the
+ * resource needs to be freed.
+ *
+ * @note The class provides conversion operators to check the validity of the
+ * name and to retrieve the raw OpenGL name.
  */
-struct components {
+class Name {
+public:
   /**
-   * @brief Imports the components into the world.
+   * @brief Construct a default, invalid Name object.
    */
-  components(flecs::world &world);
+  Name() = default;
+  /**
+   * @brief Construct a Name object with an existing OpenGL name.
+   *
+   * @param id The OpenGL name to be associated with this Name object.
+   */
+  Name(GLuint id) : id_(id) {}
+
+  // Disallow copying Name objects
+  Name(const Name &) = delete;
+  Name &operator=(const Name &) = delete;
+
+  /**
+   * @brief Move a Name to a new object.
+   */
+  Name(Name &&other) noexcept;
+  /**
+   * @brief Move a Name to another object.
+   */
+  Name &operator=(Name &&other) noexcept;
+
+  /**
+   * @brief Test if a Name is valid.
+   * @returns true if the Name is valid (nonzero ID), false otherwise.
+   */
+  [[nodiscard]] operator bool() const { return id_ != 0; }
+
+  /**
+   * @brief Convert a Name to its raw OpenGL name.
+   */
+  [[nodiscard]] operator GLuint() const { return id_; }
+
+protected:
+  GLuint id_ = 0; /**< The OpenGL ID / name */
 };
 
 /**
@@ -36,18 +83,10 @@ struct components {
  * @brief A class representing an OpenGL buffer.
  *
  * The Buffer class encapsulates the creation, management, and destruction
- * of an OpenGL buffer object. It provides mechanisms to generate, move,
- * and destroy buffers, as well as to check their validity.
- *
- * Example usage:
- * @code
- * Buffer buffer;
- * if (buffer) {
- *     // Use the buffer
- * }
- * @endcode
+ * of an OpenGL buffer object. It provides mechanisms to generate,
+ * and destroy buffers.
  */
-class Buffer {
+class Buffer : public Name {
 public:
   /**
    * @brief Generate a new buffer.
@@ -55,11 +94,11 @@ public:
   Buffer();
 
   /**
-   * @brief Constructs a Buffer object with the given OpenGL buffer ID.
+   * @brief Constructs a Buffer object with an existing OpenGL buffer ID.
    *
    * @param id The OpenGL buffer ID to be associated with this Buffer object.
    */
-  Buffer(GLuint id);
+  Buffer(GLuint id) : Name(id) {}
 
   // Disallow copying Buffer objects
   Buffer(const Buffer &) = delete;
@@ -78,20 +117,6 @@ public:
    * @brief Destroy the buffer.
    */
   ~Buffer();
-
-  /**
-   * @brief Test if a buffer is valid.
-   * @returns true if the buffer is valid (nonzero ID), false otherwise.
-   */
-  [[nodiscard]] operator bool() const { return id_ != 0; }
-
-  /**
-   * @brief Convert a Buffer to its raW OpenGL name.
-   */
-  [[nodiscard]] operator GLuint() const { return id_; }
-
-protected:
-  GLuint id_ = 0; /**< The OpenGL buffer ID / name */
 };
 
 class ArrayBuffer : public Buffer {

@@ -11,15 +11,29 @@ namespace renderer::opengl {
 components::components(flecs::world &world) {
   world.module<components>("renderer.opengl.components");
 
-  world.component<Buffer>("Buffer");
+  world.component<Name>();
+  world.component<Buffer>("Buffer").is_a<Name>();
   world.component<ArrayBuffer>().is_a<Buffer>();
+}
+
+// Component: Name
+
+Name::Name(Name &&other) noexcept {
+  id_ = other.id_;
+  other.id_ = 0;
+}
+
+Name &Name::operator=(Name &&other) noexcept {
+  if (this != &other) {
+    id_ = other.id_;
+    other.id_ = 0;
+  }
+  return *this;
 }
 
 // Component Buffer:
 
 Buffer::Buffer() { glGenBuffers(1, &id_); }
-
-Buffer::Buffer(GLuint id) : id_(id) {}
 
 Buffer::Buffer(Buffer &&other) noexcept {
   id_ = other.id_;
