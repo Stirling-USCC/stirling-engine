@@ -10,6 +10,8 @@
 #include <SDL3/SDL_init.h>
 #include <SDL3/SDL_video.h>
 
+#include "modules.hpp"
+
 Engine::Engine(int argc, char *argv[]) : world_(argc, argv) {
   // Initialize SDL. We specifically need the video subsystem, which facilitates
   // creating windows.
@@ -45,6 +47,9 @@ Engine::Engine(int argc, char *argv[]) : world_(argc, argv) {
   }
   SDL_Log("Loaded OpenGL version %d.%d", GLAD_VERSION_MAJOR(gl_version),
           GLAD_VERSION_MINOR(gl_version));
+
+  // Import all Flecs modules into the world
+  world_.import <all_engine_modules>();
 }
 
 Engine::~Engine() {
