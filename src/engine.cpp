@@ -26,9 +26,9 @@ Engine::Engine(int argc, char *argv[]) : world_(argc, argv) {
         std::format("Could not create main window: {}", SDL_GetError()));
   }
 
-  // Set OpenGL 3.3 as the desired context version
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+  // Set OpenGL 4.1 as the desired context version
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
   // Create the OpenGL context
