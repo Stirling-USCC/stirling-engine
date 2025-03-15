@@ -74,6 +74,9 @@ void Engine::run() {
         return; // onEvent() returned false, we should terminate
       }
     }
+
+    // Run all systems in the world
+    world_.progress();
   }
 }
 
