@@ -1,12 +1,16 @@
 #include "engine.hpp"
-#include "SDL3/SDL_video.h"
 
 #include <format>
 #include <stdexcept>
 
-#include <SDL3/SDL_init.h>
+// This needs to come before the SDL includes
+#include <glad/gl.h>
 
-Engine::Engine(int argc, char *argv[]) {
+#include "SDL3/SDL_log.h"
+#include <SDL3/SDL_init.h>
+#include <SDL3/SDL_video.h>
+
+Engine::Engine(int argc, char *argv[]) : world_(argc, argv) {
   // Initialize SDL. We specifically need the video subsystem, which facilitates
   // creating windows.
   if (!SDL_Init(SDL_INIT_VIDEO)) {
@@ -33,6 +37,14 @@ Engine::Engine(int argc, char *argv[]) {
     throw std::runtime_error(
         std::format("Could not create OpenGL context: {}", SDL_GetError()));
   }
+
+  // Load the OpenGL functions
+  int gl_version = gladLoadGL((GLADloadfunc)SDL_GL_GetProcAddress);
+  if (gl_version == 0) {
+    throw std::runtime_error("Could not load OpenGL functions");
+  }
+  SDL_Log("Loaded OpenGL version %d.%d", GLAD_VERSION_MAJOR(gl_version),
+          GLAD_VERSION_MINOR(gl_version));
 }
 
 Engine::~Engine() {

@@ -8,6 +8,8 @@
 
 #include <SDL3/SDL_events.h>
 #include <SDL3/SDL_video.h>
+#include <flecs.h>
+#include <flecs/addons/cpp/flecs.hpp>
 
 /**
  * @brief The main class used to create and run the game engine.
@@ -19,6 +21,7 @@ private:
   static const int DEFAULT_WIDTH = 800;  /**< Default window width */
   static const int DEFAULT_HEIGHT = 600; /**< Default window height */
 
+  flecs::world world_;
   SDL_Window *window_ = nullptr;       /**< The main window */
   SDL_GLContext gl_context_ = nullptr; /**< The OpenGL context */
 
