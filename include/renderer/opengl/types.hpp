@@ -194,6 +194,55 @@ public:
   void compile();
 };
 
+/**
+ * @class Program
+ * @brief Represents an OpenGL program object.
+ *
+ * The Program class encapsulates an OpenGL shader program object, providing
+ * functionality to attach shaders, link the program, and manage its lifecycle.
+ */
+class Program : public Name {
+public:
+  /**
+   * @brief Constructs a new Program object.
+   */
+  Program();
+  Program(GLuint id) : Name(id) {}
+
+  // Disallow copying Program objects
+  Program(const Program &) = delete;
+  Program &operator=(const Program &) = delete;
+
+  /**
+   * @brief Move a program to a new object.
+   */
+  Program(Program &&other) noexcept;
+  /**
+   * @brief Move a program to another object.
+   */
+  Program &operator=(Program &&other) noexcept;
+
+  /**
+   * @brief Attaches a shader to the program.
+   *
+   * Calls to this function can be chained to attach multiple shaders to the
+   * program in a readable way.
+   *
+   * @param shader The shader to attach to the program.
+   * @returns A reference to the program object.
+   * @see glAttachShader
+   */
+  Program &attach(const Shader &shader) &;
+
+  /**
+   * @brief Links the attached shaders to create an executable program.
+   *
+   * @throws std::runtime_error if the program linking fails.
+   * @see glLinkProgram
+   */
+  void link();
+};
+
 } // namespace renderer::opengl
 
 #endif // RENDERER_OPENGL_TYPES_HPPP_

@@ -92,4 +92,45 @@ void Shader::compile() {
   }
 }
 
+// Class: Program
+
+Program::Program() : Name(glCreateProgram()) {
+  if (!*this) {
+    throw std::runtime_error("Failed to create shader program");
+  }
+}
+
+Program::Program(Program &&other) noexcept {
+  id_ = other.id_;
+  other.id_ = 0;
+}
+
+Program &Program::operator=(Program &&other) noexcept {
+  if (this != &other) {
+    id_ = other.id_;
+    other.id_ = 0;
+  }
+  return *this;
+}
+
+Program &Program::attach(const Shader &shader) & {
+  glAttachShader(id_, shader);
+  return *this;
+}
+
+void Program::link() {
+  glLinkProgram(id_);
+  GLint success;
+  glGetProgramiv(id_, GL_LINK_STATUS, &success);
+  // If the linking failed, get the error log and throw an exception
+  if (!success) {
+    GLint error_length;
+    glGetProgramiv(id_, GL_INFO_LOG_LENGTH, &error_length);
+    // Allocate string of the right size
+    std::string log(error_length, '\0');
+    glGetProgramInfoLog(id_, error_length, nullptr, log.data());
+    throw std::runtime_error("Failed to link shader program: " + log);
+  }
+}
+
 } // namespace renderer::opengl
