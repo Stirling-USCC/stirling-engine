@@ -47,7 +47,8 @@ add_subdirectory(glad)
 add_executable(stirling-engine WIN32
 src/engine.cpp
 src/main.cpp
-src/renderer/opengl/components.cpp)
+src/renderer/opengl/components.cpp
+src/renderer/opengl/types.cpp)
 
 # Tell the compiler where to find our headers
 target_include_directories(stirling-engine PRIVATE ./include)
