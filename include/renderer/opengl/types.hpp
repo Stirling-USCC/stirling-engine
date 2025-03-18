@@ -128,6 +128,72 @@ public: // Static methods
   }
 };
 
+/**
+ * @class Shader
+ * @brief Represents an OpenGL shader object.
+ *
+ * The Shader class encapsulates the creation, management, and compilation of
+ * OpenGL shader objects. It provides functionality to set the GLSL source
+ * code and compile the shader.
+ *
+ * @see Name
+ */
+class Shader : public Name {
+public:
+  /**
+   * @brief Constructs a Shader object with the specified type.
+   *
+   * @param type The type of the shader (e.g., GL_VERTEX_SHADER,
+   * GL_FRAGMENT_SHADER).
+   */
+  Shader(GLenum type);
+  /**
+   * @brief Constructs a Shader object with the specified type and source code.
+   *
+   * @param type The type of the shader (e.g., GL_VERTEX_SHADER,
+   * GL_FRAGMENT_SHADER).
+   * @param source The source code of the shader.
+   */
+  Shader(GLenum type, const char *source);
+
+  // Disallow copying Shader objects
+  Shader(const Shader &) = delete;
+  Shader &operator=(const Shader &) = delete;
+
+  /**
+   * @brief Move a shader to a new object.
+   */
+  Shader(Shader &&other) noexcept;
+  /**
+   * @brief Move a shader to another object.
+   */
+  Shader &operator=(Shader &&other) noexcept;
+
+  ~Shader() noexcept;
+
+  /**
+   * @brief Sets the source code for the shader.
+   *
+   * @param source The source code of the shader.
+   * @param size The length of the source code. If -1, the source code is
+   * assumed to be null-terminated.
+   *
+   * @see glShaderSource
+   */
+  void setSource(const char *source, GLint size = -1);
+
+  /**
+   * @brief Compile the shader.
+   *
+   * This function compiles the shader source code that was previously set using
+   * setSource().
+   *
+   * @throws std::runtime_error if the shader compilation fails.
+   * @see glCompileShader
+   */
+  void compile();
+};
+
 } // namespace renderer::opengl
 
 #endif // RENDERER_OPENGL_TYPES_HPPP_
