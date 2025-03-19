@@ -42,6 +42,36 @@ Buffer::~Buffer() {
   }
 }
 
+// Class: VertexArray
+
+VertexArray::VertexArray() {
+  glGenVertexArrays(1, &id_);
+  if (!*this) {
+    throw std::runtime_error("Failed to create vertex array");
+  }
+}
+
+VertexArray::VertexArray(VertexArray &&other) noexcept {
+  id_ = other.id_;
+  other.id_ = 0;
+}
+
+VertexArray &VertexArray::operator=(VertexArray &&other) noexcept {
+  if (this != &other) {
+    id_ = other.id_;
+    other.id_ = 0;
+  }
+  return *this;
+}
+
+void VertexArray::bind() { glBindVertexArray(id_); }
+
+VertexArray::~VertexArray() {
+  if (id_ != 0) {
+    glDeleteVertexArrays(1, &id_);
+  }
+}
+
 // Class: Shader
 
 Shader::Shader(GLenum type) : Name(glCreateShader(type)) {

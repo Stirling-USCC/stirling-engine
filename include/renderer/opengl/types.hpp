@@ -102,30 +102,48 @@ public:
   ~Buffer();
 };
 
-class ArrayBuffer : public Buffer {
+/**
+ * @class VertexArray
+ * @brief A class representing an OpenGL vertex array.
+ *
+ * The VertexArray class encapsulates the creation, management, and destruction
+ * of an OpenGL vertex array object. It provides mechanisms to generate,
+ * bind, and destroy vertex arrays.
+ */
+class VertexArray : public Name {
 public:
   /**
-   * @brief Binds the buffer to the GL_ARRAY_BUFFER target.
+   * @brief Constructs a new VertexArray object.
+   * @see glGenVertexArrays
    */
-  void bind() const { glBindBuffer(GL_ARRAY_BUFFER, id_); }
-
-public: // Static methods
+  VertexArray();
   /**
-   * @brief Uploads data to the currently bound OpenGL array buffer.
+   * @brief Constructs a VertexArray object with an existing OpenGL ID.
    *
-   * This function is Static, it uploads data to whatever is bound to
-   * GL_ARRAY_BUFFER target.
-   *
-   * @param size Specifies the size in bytes of the data to upload.
-   * @param data A pointer to the new data that will be copied into the buffer.
-   * @param usage Specifies the expected usage pattern of the data store.
-   *              Possible values are GL_STREAM_DRAW, GL_STATIC_DRAW, and
-   * GL_DYNAMIC_DRAW.
-   * @see glBufferData
+   * @param id The OpenGL ID to be associated with this VertexArray object.
    */
-  static void data(GLsizeiptr size, const void *data, GLenum usage) noexcept {
-    glBufferData(GL_ARRAY_BUFFER, size, data, usage);
-  }
+  VertexArray(GLuint id) : Name(id) {}
+
+  // Disallow copying VertexArray objects
+  VertexArray(const VertexArray &) = delete;
+  VertexArray &operator=(const VertexArray &) = delete;
+
+  /**
+   * @brief Move a vertex array to a new object.
+   */
+  VertexArray(VertexArray &&other) noexcept;
+  /**
+   * @brief Move a vertex array to another object.
+   */
+  VertexArray &operator=(VertexArray &&other) noexcept;
+
+  ~VertexArray();
+
+  /**
+   * @brief Binds the vertex array.
+   * @see glBindVertexArray
+   */
+  void bind();
 };
 
 /**
