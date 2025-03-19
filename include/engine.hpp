@@ -10,7 +10,6 @@
 #include <SDL3/SDL_video.h>
 #include <flecs.hpp>
 
-
 /**
  * @brief The main class used to create and run the game engine.
  * An instance of this class should be created in the main() function, and
@@ -18,8 +17,8 @@
  */
 class Engine {
 private:
-  static const int DEFAULT_WIDTH = 800;  /**< Default window width */
-  static const int DEFAULT_HEIGHT = 600; /**< Default window height */
+  static const int DEFAULT_WIDTH = 1280; /**< Default window width */
+  static const int DEFAULT_HEIGHT = 720; /**< Default window height */
 
   flecs::world world_;
   SDL_Window *window_ = nullptr;       /**< The main window */
