@@ -4,6 +4,7 @@
 #include <flecs.hpp>
 #include <glad/gl.h>
 
+#include "flecs/addons/cpp/c_types.hpp"
 #include "renderer/opengl/types.hpp"
 
 namespace renderer::opengl {
@@ -13,9 +14,14 @@ namespace renderer::opengl {
 components::components(flecs::world &world) {
   world.module<components>("renderer.opengl.components");
 
-  world.component<Name>();
-  world.component<Buffer>("Buffer").is_a<Name>();
-  world.component<ArrayBuffer>().is_a<Buffer>();
+  // Components
+  world.component<VertexBuffer>();
+  world.component<IndexBuffer>();
+  world.component<VertexArray>();
+  world.component<Program>();
+  // Relationships
+  world.component<UsingShaderProgram>().add(flecs::Relationship);
+  world.component<UsingVertexArray>().add(flecs::Relationship);
 }
 
 } // namespace renderer::opengl
