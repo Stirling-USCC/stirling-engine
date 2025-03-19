@@ -37,6 +37,12 @@ VERSION 4.0.4
 GIT_REPOSITORY "https://github.com/SanderMertens/flecs"
 # We don't need the shared library, don't bother building it
 Options "FLECS_SHARED OFF")
+CPMFindPackage(NAME GLM
+VERSION 1.0.1
+GIT_REPOSITORY "https://github.com/g-truc/glm"
+GIT_TAG 1.0.1
+# We don't need the shared library, don't bother building it
+OPTIONS "GLM_ENABLE_CXX_20 ON")
 
 # Add GLAD, see glad/README.md for more information
 add_subdirectory(glad)
@@ -54,7 +60,7 @@ src/renderer/opengl/types.cpp)
 # Tell the compiler where to find our headers
 target_include_directories(stirling-engine PRIVATE ./include)
 # Tell the compiler what libraries we use
-target_link_libraries(stirling-engine PRIVATE flecs_static glad SDL3::SDL3-static)
+target_link_libraries(stirling-engine PRIVATE flecs_static glad glm::glm SDL3::SDL3-static)
 
 # Install the engine (only performed if you explicitly tell CMake to install)
 install(TARGETS stirling-engine)
