@@ -64,6 +64,10 @@ components::components(flecs::world &world) {
           .set<VertexBuffer>(std::move(vertices))
           .set<VertexArray>(std::move(vao))
           .set<Program>(std::move(triangleProgram));
+
+  flecs::entity triangle = world.entity("triangle")
+                               .add<UsingShaderProgram>(triangleRenderable)
+                               .add<UsingVertexArray>(triangleRenderable);
 }
 
 } // namespace renderer::opengl
