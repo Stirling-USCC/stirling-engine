@@ -81,8 +81,13 @@ void Engine::run() {
       }
     }
 
+    // Clear the screen
+    glClear(GL_COLOR_BUFFER_BIT);
+
     // Run all systems in the world
     world_.progress();
+
+    SDL_GL_SwapWindow(window_);
   }
 }
 
